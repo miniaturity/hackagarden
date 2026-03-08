@@ -1,38 +1,32 @@
 <script lang="ts">
+  import { invoke } from '@tauri-apps/api/core';
 
-  let slack_id = $state("Not logged in.");
-  
+  let username = $state<string | null>(null);
+  let stats = $state<any>(null);
+  let loading = $state(false);
+
+  async function login() {
+    loading = true;
+    try {
+      await invoke('start_auth');          // blocks until user finishes login
+      const info = await invoke<{ username: string }>('get_user_info');
+      username = info.username;
+      stats = await invoke('get_stats');
+    } catch (e) {
+      console.error(e);
+    } finally {
+      loading = false;
+    }
+  }
 </script>
 
-<main class="container">
-  <div class="auth">
-    <div class="id">
-      Your ID: {slack_id}
-    </div>
-    <button>
-      login with hack club
-    </button>
-  </div>
-</main>
-
-<style>
-
-
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color: #0f0f0f;
-  background-color: #f6f6f6;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-
-</style>
+{#if loading}
+  <p>Waiting for login...</p>
+{:else if username}
+  <p>Logged in as {username}</p>
+  <p>Streak: {stats?.streak?.streak_days ?? 0} days</p>
+  <p>This week: {((stats?.weekly_hours?.total_seconds ?? 0) / 3600).toFixed(1)}h</p>
+  <button onclick={() => invoke('logout').then(() => { username = null; })}>Logout</button>
+{:else}
+  <button onclick={login}>Login with Hack Club</button>
+{/if}
