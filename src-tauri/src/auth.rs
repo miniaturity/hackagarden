@@ -5,6 +5,7 @@ use sha2::{Digest, Sha256};
 use std::sync::Arc;
 use tauri::State;
 use tokio::sync::Mutex;
+use tauri_plugin_store::StoreExt;
 
 pub const BASE_URL: &str = "https://hackatime.hackclub.com";
 const CLIENT_ID: &str = "euy1nsAGCGwK28I_IdgILVfq6rqqpW-ltIobjfZOhBQ";
@@ -14,6 +15,29 @@ pub struct AuthState {
     pub is_authenticated: bool,
     pub access_token: Option<String>,
     pub username: Option<String>,
+}
+
+// -- tauri-plugin-store helpers --
+
+fn get_store(app: &tauri::AppHandle) -> Arc<tauri_plugin_store::Store<tauri::Wry>> {
+    app.store("auth.json").unwrap()
+}
+pub fn save_token(app: &tauri::AppHandle, token: &str) {
+    let store = get_store(app);
+    store.set("access_token", token);
+    let _ = store.save();
+}
+
+pub fn load_token(app: &tauri::AppHandle) -> Option<String> {
+    let store = get_store(app);
+    store.get("access_token")
+        .and_then(|v| v.as_str().map(|s| s.to_string()))
+}
+
+pub fn clear_token(app: &tauri::AppHandle) {
+    let store = get_store(app);
+    store.delete("access_token");
+    let _ = store.save();
 }
 
 // --- PKCE helpers ---
@@ -55,7 +79,7 @@ fn parse_query(url: &str) -> std::collections::HashMap<String, String> {
         .collect()
 }
 
-// --- Commands ---
+// --- Tauri Commands ---
 
 #[tauri::command]
 pub async fn start_auth(
@@ -173,10 +197,12 @@ pub async fn start_auth(
             .json::<serde_json::Value>()
             .await
             .ok()
-            .and_then(|v| v["username"].as_str().map(|s| s.to_string()))
+            .and_then(|v| v["github_username"].as_str().map(|s| s.to_string()))
     } else {
         None
     };
+
+    save_token(&app, &access_token);
 
     let mut state = auth_state.lock().await;
     state.is_authenticated = true;
@@ -194,7 +220,11 @@ pub async fn get_auth_state(
 }
 
 #[tauri::command]
-pub async fn logout(auth_state: State<'_, Arc<Mutex<AuthState>>>) -> Result<(), String> {
+pub async fn logout(
+    auth_state: State<'_, Arc<Mutex<AuthState>>>,
+    app: tauri::AppHandle,
+) -> Result<(), String> {
+    clear_token(&app);
     *auth_state.lock().await = AuthState::default();
     Ok(())
 }
