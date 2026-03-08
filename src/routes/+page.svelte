@@ -8,9 +8,10 @@
   async function login() {
     loading = true;
     try {
-      await invoke('start_auth');          // blocks until user finishes login
-      const info = await invoke<{ username: string }>('get_user_info');
-      username = info.username;
+      await invoke('start_auth');
+      const info = await invoke<Record<string, any>>('get_user_info');
+      console.log('user info:', info);  // check the browser console
+      username = info.username ?? info.login ?? info.name ?? info.display_name;
       stats = await invoke('get_stats');
     } catch (e) {
       console.error(e);
