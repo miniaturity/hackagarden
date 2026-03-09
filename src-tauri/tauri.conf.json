@@ -14,7 +14,11 @@
       {
         "title": "hackagarden",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "resizable": false,
+        "fullscreen": false,
+        "maximized": false,
+        "maximizable": false
       }
     ],
     "security": {

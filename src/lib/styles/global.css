@@ -1,0 +1,44 @@
+:root {
+  --margin: 8px;
+  --bg-col: #fffcf2;
+  --border-col: #000;
+  --border: 2px solid var(--border-col); 
+}
+
+*::selection {
+  background-color: var(--border-col);
+}
+
+body {
+  background-color: var(--bg-col);
+}
+
+@font-face {
+  src: url("$lib/assets/fonts/geist-pixel/GeistPixel-Circle.ttf");
+  font-family: "GP_Circle";
+}
+
+@font-face {
+  src: url("$lib/assets/fonts/geist-pixel/GeistPixel-Grid.ttf");
+  font-family: "GP_Grid";
+}
+
+@font-face {
+  src: url("$lib/assets/fonts/geist-pixel/GeistPixel-Line.ttf");
+  font-family: "GP_Line";
+}
+
+@font-face {
+  src: url("$lib/assets/fonts/geist-pixel/GeistPixel-Square.ttf");
+  font-family: "GP_Square";
+}
+
+@font-face {
+  src: url("$lib/assets/fonts/geist-pixel/GeistPixel-Triangle.ttf");
+  font-family: "GP_Triangle";
+}
+
+@font-face {
+  src: url("$lib/assets/fonts/geist-mono/GeistMono-Regular.ttf");
+  font-family: "GeistMono";
+}
