@@ -16,9 +16,7 @@ export interface Heartbeat {
 
 export interface UserData {
     username: string;
-    display_name: string | null;
     streak_days: number;
-    longest_streak: number;
     projects: Project[];
     latest_heartbeat: Heartbeat | null;
     api_key: string | null;

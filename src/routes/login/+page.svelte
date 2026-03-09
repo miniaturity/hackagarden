@@ -24,10 +24,8 @@
       ]);
 
       userData.set({
-        username: info.username ?? 'Unknown',
-        display_name: info.display_name ?? null,
+        username: info.github_username ?? 'Unknown',
         streak_days: streakData.streak_days ?? 0,
-        longest_streak: streakData.longest_streak ?? 0,
         projects: (projectsData.projects ?? []).map((p: any) => ({
           name: p.name,
           total_seconds: p.total_seconds ?? 0,

@@ -20,21 +20,25 @@
 
   onMount(() => {
     if (!userData) goto("/login");
+    console.log(JSON.stringify($userData));
   })
 </script>
 
-{#if userData}
+{#if $userData}
   <div class="page">
     <div class="container">
 
       <div class="top">
-
+        <div class="t__pfp">
+          <img alt="" src={`https://github.com/${$userData.username}.png`}/>
+        </div>
       </div>
       <div class="bottom">
 
       </div>
 
     </div>
+    <button onclick={logout}>logout</button>
   </div>
 {/if}
 
@@ -48,7 +52,11 @@
   }
 
   .container {
-    width: 80vw; height: 80vh;
-    border: var(--border)
+    width: 700px; height: 500px;
+    display: flex;
+    flex-direction: column;
+
+    border: var(--border);
+    
   }
 </style>

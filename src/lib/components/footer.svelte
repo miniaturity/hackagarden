@@ -28,9 +28,11 @@
 
 {#if latestCommit}
 <footer>
-  <div>Commit <a 
-  href={latestCommit.html_url} target="_blank" rel="noopener noreferrer">{latestCommit.sha.slice(0, 6)}</a></div>
-  found a bug? report to @miniaturity
+  <div>Commit 
+    <a href={latestCommit.html_url} target="_blank" rel="noopener noreferrer">{latestCommit.sha.slice(0, 6)}</a>
+  @ {latestCommit.commit.author.date}
+  </div>
+  
 </footer>
 {/if}
 

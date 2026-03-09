@@ -7,6 +7,7 @@
 
 *::selection {
   background-color: var(--border-col);
+  color: red;
 }
 
 body {
