@@ -1,8 +1,16 @@
 :root {
   --margin: 8px;
   --bg-col: #fffcf2;
+  --bg-col-l: color-mix(in srgb, var(--bg-col), #fff 80%);
   --border-col: #000;
   --border: 2px solid var(--border-col); 
+  --radius: 4px;
+
+  /* #region colors */
+  --red: #f75e5e;
+  --d-red: hsl(from var(--red) h calc(s + 35) calc(l - 5));
+  --b-red: color-mix(in srgb, var(--red), #fff 40%);
+  /* #endregion colors */
 }
 
 *::selection {
@@ -42,4 +50,9 @@ body {
 @font-face {
   src: url("$lib/assets/fonts/geist-mono/GeistMono-Regular.ttf");
   font-family: "GeistMono";
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("$lib/assets/fonts/geist/Geist-Regular.ttf");
 }
