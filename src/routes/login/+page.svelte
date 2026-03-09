@@ -124,6 +124,10 @@
       opacity: 1;
     }
 
+    &:hover {
+      font-weight: bold;
+    }
+
     &:disabled {
       width: 48px; height: 48px;
       margin: 0; padding: 0;

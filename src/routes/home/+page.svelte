@@ -4,6 +4,8 @@
   import { userData } from '$lib/store';
   import { onMount } from 'svelte';
   import "$lib/styles/global.css";
+  import HomeHeader from '$lib/components/home/homeHeader.svelte';
+    import HomeLoading from '$lib/components/home/homeLoading.svelte';
 
   function formatTime(seconds: number): string {
     const hours = Math.floor(seconds / 3600);
@@ -18,10 +20,7 @@
     goto('/login');
   }
 
-  onMount(() => {
-    if (!userData) goto("/login");
-    console.log(JSON.stringify($userData));
-  });
+  let loaded = $state<boolean>(false);
 
   $effect(() => {
     if (confirmingLogout) {
@@ -31,9 +30,6 @@
     }
   });
 
-  $effect(() => {
-    if (!$userData?.username) goto("/login");
-  })
 
   let confirmingLogout = $state<boolean>(false);
   let animateWelcome = $state<boolean>(false);
@@ -46,12 +42,20 @@
     }
   }
 
-  onMount(() => {
-    setTimeout(() => animateWelcome = true, 1500);
+  $effect(() => {
+    if (loaded) {
+      setTimeout(() => animateWelcome = true, 2000);
+    }
+  });
+
+  $effect(() => {
+    if (!loaded && $userData) {
+      loaded = true;
+    }
   })
 </script>
 
-{#if $userData}
+{#if loaded && $userData}
   <div class="page">
     <div class="container">
 
@@ -68,14 +72,12 @@
         </button>
         <header class="t__header">
           <div class={`th__content`}>
+
             <div class={`th__welcome ${animateWelcome && "slide-left"}`}>
               <div class="thw__content"><span>Welcome, {$userData.username}!</span></div>
             </div>
-            <div class="th__header">
-              <div class="thh__streak">
-                Streak: {$userData.streak_days}
-              </div>
-            </div>
+
+            <HomeHeader />
           </div>
         </header>
       </section>
@@ -94,6 +96,9 @@
 
     </div>
   </div>
+
+{:else}
+  <HomeLoading />
 {/if}
 
 <style lang="scss">
@@ -248,24 +253,6 @@
     justify-content: center;
   }
 
-  .th__header {
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-shrink: 0;
-  }
-
-  .thh__streak {
-    border: 2px solid var(--red);
-    padding: var(--margin);
-    border-radius: var(--radius);
-    background-color: var(--b-red);
-    color: var(--d-red);
-    font-family: "Geist";
-  }
 
   .slide-left {
     animation: slide-left 3s ease-in-out forwards;

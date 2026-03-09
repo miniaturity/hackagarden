@@ -17,7 +17,7 @@
     ]);
 
     return {
-      username: info.username ?? info.login ?? 'Unknown',
+      username: info.github_username ?? 'Unknown',
       streak_days: streakData.streak_days ?? 0,
       projects: (projectsData.projects ?? []).map((p: any) => ({
         name: p.name,
