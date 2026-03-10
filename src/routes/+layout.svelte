@@ -1,11 +1,12 @@
+<!-- +layout.svelte – drop-in replacement -->
 <script lang="ts">
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import { invoke } from '@tauri-apps/api/core';
-  import { userData } from '$lib/store';
-  import type { UserData } from '$lib/store';
-    import Footer from '$lib/components/footer.svelte';
+  import { userData, currencyState } from '$lib/store';
+  import type { UserData, CurrencyState } from '$lib/store';
+  import Footer from '$lib/components/footer.svelte';
 
   async function fetchUserData(): Promise<UserData> {
     const [info, streakData, projectsData, heartbeatData, apiKey] = await Promise.all([
@@ -43,13 +44,22 @@
       if (!$userData) {
         userData.set(await fetchUserData());
       }
+
+      if (!$currencyState) {
+        const persisted = await invoke<CurrencyState>('get_currency_state');
+        currencyState.set(persisted);
+      }
+      // awards any newly earned hours
+      invoke<CurrencyState>('sync_currency')
+        .then(cs => currencyState.set(cs))
+        .catch(console.error);
+
       if (isLoginPage) goto('/home');
     } else {
       if (!isLoginPage) goto('/login');
     }
   });
 </script>
-
 
 <slot />
 <Footer />

@@ -39,12 +39,17 @@
   footer {
     user-select: none;
     position: absolute;
-    left: 0; bottom: 0;
+    left: 0; top: 0;
     margin: var(--margin);
 
     color: color-mix(in srgb, var(--bg-col), #000 30%);
     font-family: "GP_Grid";
     font-size: 0.8rem;
+    transition: color 0.1s ease;
+
+    &:hover {
+      mix-blend-mode: difference;
+    }
 
     & a {
       color: inherit;

@@ -3,6 +3,7 @@
   import { goto } from '$app/navigation';
   import { userData } from '$lib/store';
   import "$lib/styles/global.css";
+  import grass_overlay from "$lib/assets/images/grass-overlay.png";
 
   import loading_svg from "$lib/assets/images/loading.svg";
 
@@ -51,6 +52,7 @@
 </script>
 
 <div class="page">
+  <img alt="" src={grass_overlay} id="go"/>
   <div class="p__title">{"{"}hack-a-garden{"}"}</div>
   <button onclick={login} disabled={loading} class="p__login">
     {#if !loading}
@@ -67,6 +69,12 @@
 {/if}
 
 <style lang="scss">
+  #go {
+    position: absolute;
+    width: 100%; height: 100%;
+    top: 20%; left: 0;
+    opacity: 0.8;
+  }
   @property --rotation {
     syntax: "<angle>";
     inherits: false;
@@ -82,11 +90,14 @@
 
   .page {
     width: 100vw; height: 100vh;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: var(--margin);
+    image-rendering: pixelated;
+    overflow: hidden;
   }
 
   .p__title {

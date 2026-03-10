@@ -1,9 +1,10 @@
 mod auth;
+mod currency;
 mod hackatime;
 
 use std::sync::Arc;
-use tokio::sync::Mutex;
 use tauri::Manager;
+use tokio::sync::Mutex;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -26,9 +27,11 @@ pub fn run() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            // auth
             auth::start_auth,
             auth::get_auth_state,
             auth::logout,
+            // hackatime
             hackatime::get_user_info,
             hackatime::get_streak,
             hackatime::get_hours,
@@ -37,6 +40,10 @@ pub fn run() {
             hackatime::get_latest_heartbeat,
             hackatime::get_api_key,
             hackatime::get_stats,
+            // currency
+            currency::get_currency_state,
+            currency::sync_currency,
+            currency::spend_coins,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
