@@ -25,9 +25,6 @@
     "Don't forget to water your plants!",
     "🐇",
     "How are you? Fine thank you.",
-    "Miniaturity was here.",
-    "hi lol",
-    "--> https://minipa.ws <--"
   ]
 
   function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' {
@@ -57,7 +54,7 @@
   }
 </script>
 
-<div class="bubble-text" onmouseenter={recomputeText} role="cell" tabindex="0">
+<div class="bubble-text" onmousedown={recomputeText} role="cell" tabindex="0">
   {constructedText}
 </div>
 
@@ -65,9 +62,6 @@
   .bubble-text {
     font-size: 1.1rem;
     font-family: "Geist";
-
-    &:hover {
-      scale: 1.05;
-    }
+    cursor: pointer;
   }
 </style>

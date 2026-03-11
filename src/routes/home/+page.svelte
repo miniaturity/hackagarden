@@ -6,6 +6,7 @@
   import "$lib/styles/global.css";
   import HomeHeader from '$lib/components/home/homeHeader.svelte';
     import HomeLoading from '$lib/components/home/homeLoading.svelte';
+    import HomeMain from '$lib/components/home/homeMain.svelte';
 
   function formatTime(seconds: number): string {
     const hours = Math.floor(seconds / 3600);
@@ -89,9 +90,9 @@
           </button> -->
         </nav>
 
-        <main class="b__main">
-
-        </main>
+        <div class="b__main">
+          <HomeMain />
+        </div>
       </section>
 
     </div>
@@ -102,21 +103,12 @@
 {/if}
 
 <style lang="scss">
-  @property --rotation {
-    syntax: "<angle>";
-    inherits: false;
-    initial-value: 0deg;
-  }
 
   :global(body) {
     margin: 0; padding: 0;
   }
 
-  @keyframes rotate {
-    to {
-      --rotation: 360deg;
-    }
-  }
+  
 
   @mixin pixel-font() {
     text-rendering: optimizeLegibility;
@@ -125,6 +117,18 @@
     -moz-osx-font-smoothing: grayscale;
     image-rendering: pixelated; 
     
+  }
+
+  @property --rotation {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+  }
+
+  @keyframes rotate {
+    to {
+      --rotation: 360deg;
+    }
   }
 
   @mixin gradient-bg($opacity) {
