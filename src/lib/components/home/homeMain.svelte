@@ -42,6 +42,11 @@
     flex-direction: column;
   }
 
+  .m__right {
+    width: 50%;
+    height: 100%;
+  }
+
   .ml__qbuttons {
     display: flex;
     flex-direction: column;

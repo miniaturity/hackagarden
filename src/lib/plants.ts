@@ -13,10 +13,8 @@ export interface GreenhousePlant extends OwnedPlant {
 
 export interface OwnedPlant extends Plant {
   fertilized: boolean;
-  fertilizeBoost: number; // growth mult to apply if fertilized
 
   watered: boolean;
-  wateredPunishment: number; // growth mult to apply if not watered (0 = stops)
 
   // # of total hours when bought
   // in order to keep track of growthRate easily.
@@ -31,11 +29,14 @@ export interface OwnedPlant extends Plant {
 }
 
 export interface Plant {
+  texture: string;
   name: string;
   desc: string;
 
   cost: number;
   
+  fertilizeBoost: number; // growth mult to apply if fertilized
+  wateredPunishment: number; // growth mult to apply if not watered (0 = stops)
   baseGrowthRate: number;
   typePerGrowth: {
     stage: number;
