@@ -2,7 +2,7 @@
   --margin: 8px;
   --bg-col: #fffcf2;
   --bg-col-l: color-mix(in srgb, var(--bg-col), #fff 80%);
-  --border-col: #000;
+  --border-col: #1e1e1e;
   --border: 2px solid var(--border-col); 
   --radius: 4px;
 

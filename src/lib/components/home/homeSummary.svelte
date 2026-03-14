@@ -8,30 +8,30 @@
   <div class="summary">
     {#if $userData.latest_heartbeat}
       <header>
-      <span>{"{"}&nbsp;</span> latest heartbeat <span>&nbsp;{"}"}</span>
+      <span>{"{"}&nbsp;</span> latest_heartbeat <span>&nbsp;{"}"}</span>
       </header>
       
       <table class="s__data">
         <tbody>
           <tr>
-            <td>Name</td>
-            <td>{$userData.latest_heartbeat.project?.toLowerCase() || "..."}</td>
+            <td>Name:</td>
+            <td>{"\"" + ($userData.latest_heartbeat.project?.toLowerCase() || "...") + "\""}</td>
           </tr>
           
           <tr>
-            <td>Language</td>
-            <td>{$userData.latest_heartbeat.language?.toLowerCase() || "..."}</td>
+            <td>Language:</td>
+            <td>{"\"" + ($userData.latest_heartbeat.language?.toLowerCase() || "...") + "\""}</td>
           </tr>
 
           <tr>
-            <td>Editor</td>
-            <td>{$userData.latest_heartbeat.editor?.toLowerCase() || "..."}</td>
+            <td>Editor:</td>
+            <td>{"\"" + ($userData.latest_heartbeat.editor?.toLowerCase() || "...") + "\""}</td>
           </tr>
 
           <tr>
-            <td>Hours</td>
+            <td>Hours:</td>
             
-            <td>{(($userData.projects.find(p => p.name === $userData.latest_heartbeat?.project)?.total_seconds || 0) / 3600).toFixed(2)}</td>
+            <td>{"\"" + (($userData.projects.find(p => p.name === $userData.latest_heartbeat?.project)?.total_seconds || 0) / 3600).toFixed(2) + "\""}</td>
           </tr>
         </tbody>
       </table>
@@ -53,6 +53,28 @@
     align-items: center;
 
     font-family: "Geist";
+
+    --code-bg: #1e1e1e;
+    --code-var: #9CDCFE;
+    --code-flow: #C586C0;
+    --code-string: #CE9178;
+    --code-class: #4EC9B0;
+    --trans: all 0.4s ease-out;
+    --b: 2px solid #1e1e1e;
+  }
+
+  .summary:has(header:hover) {
+    & tr { 
+      & td:nth-child(1) {
+        background-color: #1e1e1e;
+        color: var(--code-class);
+      }
+
+      & td:nth-child(2) {
+        background-color: #1e1e1e;
+        color: var(--code-string);
+      }
+    }
   }
 
   header {
@@ -64,18 +86,18 @@
 
     font-family: "GP_Square";
     font-size: 1.4rem;
-    transition: all 0.4s ease-out;
+    transition: var(--trans);
 
     & span {
-      transition: all 0.4s ease-out;
+      transition: var(--trans);
     }
     
     &:hover {
-      color: #22f82d;
-      background-color: #000;
+      color: var(--code-var);
+      background-color: var(--code-bg);
 
       & span {
-        color: red;
+        color: var(--code-flow);
       }
     }
   }
@@ -91,11 +113,25 @@
     width: 100%;
     
     & td:nth-child(1) {
+      width: 25%;
+      transition: var(--trans);
+      font-family: "GeistMono";
       border-right: var(--border);
+
+      &:hover {
+        background-color: #1e1e1e;
+        color: var(--code-class);
+      }
     }
 
     & td:nth-child(2) {
+      transition: var(--trans);
       font-family: "GeistMono";
+
+      &:hover {
+        background-color: #1e1e1e;
+        color: var(--code-string);
+      }
     }
   }
 

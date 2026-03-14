@@ -13,7 +13,7 @@
 </button>
 
 <style lang="scss">
-@property --rotation {
+  @property --rotation {
     syntax: "<angle>";
     inherits: false;
     initial-value: 0deg;
@@ -40,6 +40,7 @@
       transition: opacity 0.3s ease-in-out;
     }
   }
+  
   .gh-button {
     border: 2px solid var(--green);
     width: 100%; height: 100%;

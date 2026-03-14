@@ -172,6 +172,11 @@
     width: 100%;
     flex-grow: 1;
     gap: calc(var(--margin) * 2);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translate(-3px, -3px);
+    }
   }
 
   .t__pfp {
@@ -214,6 +219,12 @@
     flex-wrap: nowrap;
 
     @include pixel-font();
+
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translate(-3px, -3px);
+    }
   }
 
   .th__content {
