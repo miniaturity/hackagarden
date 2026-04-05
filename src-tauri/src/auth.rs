@@ -141,7 +141,7 @@ pub async fn start_auth(
 
     let returned_state = params.get("state").ok_or("Missing state in callback")?;
     if returned_state != &csrf_state {
-        return Err("State mismatch — possible CSRF attack".to_string());
+        return Err("State mismatch! Possible CSRF attack".to_string());
     }
 
     let code = params
