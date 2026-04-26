@@ -2,7 +2,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
+  import { page } from '$app/stores'; // !! deprecated
   import { invoke } from '@tauri-apps/api/core';
   import { userData, currencyState } from '$lib/store';
   import type { UserData, CurrencyState } from '$lib/store';
@@ -49,6 +49,7 @@
         const persisted = await invoke<CurrencyState>('get_currency_state');
         currencyState.set(persisted);
       }
+      
       // awards any newly earned hours
       invoke<CurrencyState>('sync_currency')
         .then(cs => currencyState.set(cs))

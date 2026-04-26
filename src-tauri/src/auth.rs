@@ -90,17 +90,103 @@ pub async fn start_auth(
     let tx = std::sync::Mutex::new(Some(tx));
 
     let port = tauri_plugin_oauth::start_with_config(
-        tauri_plugin_oauth::OauthConfig {
-            ports: Some(vec![8080]),
-            ..Default::default()
-        },
-        move |url| {
-            if let Some(sender) = tx.lock().unwrap().take() {
-                let _ = sender.send(url);
-            }
-        },
-    )
-    .map_err(|e| format!("Failed to start OAuth listener: {e}"))?;
+    tauri_plugin_oauth::OauthConfig {
+        ports: Some(vec![8080]),
+        response: Some(String::from(r#"
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+                <title>hackagarden</title>
+            </head>
+            <body>
+                <div class="middle">
+                    <strong>Auth Success ::</strong> Please return to the app.
+                </div>
+            </body>
+            <style>
+                :root {
+                --margin: 8px;
+                --bg-col: #fffcf2;
+                --bg-col-l: color-mix(in srgb, var(--bg-col), #fff 80%);
+                --border-col: #1e1e1e;
+                --border: 2px solid var(--border-col); 
+                --radius: 4px;
+
+                /* #region colors */
+                --sat-purple: #a025e7;
+                --purple: #b863e9;
+                --l-purple: #c387e6;
+
+                --sat-green: #53be21;
+                --green: #84e458;
+                --l-green: #b2dd9f;
+
+                --sat-pink: #e861f5;
+                --pink: #f390fc;
+                --l-pink: #f5affc;
+                /* #endregion colors */
+                }
+
+                @property --rotation {
+                    syntax: "<angle>";
+                    inherits: false;
+                    initial-value: 0deg;
+                }
+
+                body {
+                    margin: 0; padding: 0;
+                    background-color: var(--bg-col);
+                    font-family: monospace;
+                    
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    width: 100vw; height: 100vh;
+                }
+
+                .middle {
+                    padding: var(--margin);
+                    background-color: #fff;
+                    border: 2px solid var(--border-col);
+                    font-size: clamp(12px, 1vw, 32px);
+                    position: relative;
+                }
+
+                .middle::before {
+                    content: "";
+                    display: block;
+                    background: conic-gradient(from var(--rotation), purple, blue, green, yellow, orange, red);
+                    filter: blur(20px);
+                    opacity: 0.5;
+                    position: absolute;
+                    inset: 4px;
+                    z-index: -2;
+                    animation: rotate 5s linear infinite;
+                    transition: opacity 0.3s ease-in-out;
+                }
+
+                @keyframes rotate {
+                    to {
+                    --rotation: 360deg;
+                    }
+                }
+            </style>
+            </html>
+                    "#).into()),
+        ..Default::default()
+    },
+    move |url| {
+        if let Some(sender) = tx.lock().unwrap().take() {
+            let _ = sender.send(url);
+        }
+    },
+)
+.map_err(|e| format!("Failed to start OAuth listener: {e}"))?;
+
 
     let redirect_uri = format!("http://localhost:{port}");
 

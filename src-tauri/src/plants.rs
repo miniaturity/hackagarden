@@ -7,8 +7,15 @@ pub struct Plant {
   pub id: String,
   pub name: String,
   pub desc: String,
+  pub rarity: String,
   pub cost: u64,
-  pub texture: String
+  pub texture: String,
+
+  pub hoursWhenBought: u64,
+  
+  pub growth: u64, // Growth in hours
+  pub growthStage: u64, // Stage of growth ()
+  pub growthMult: u64, // Multiplier for growth
 }
 
 

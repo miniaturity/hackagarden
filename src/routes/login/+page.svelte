@@ -75,6 +75,7 @@
     top: 20%; left: 0;
     opacity: 0.8;
   }
+  
   @property --rotation {
     syntax: "<angle>";
     inherits: false;
