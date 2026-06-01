@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import type { GardenPlant, GreenhousePlant, OwnedPlant, Plant } from './plants';
 
 
 export type Project = {
@@ -31,3 +32,13 @@ export type CurrencyState = {
 };
 
 export const currencyState = writable<CurrencyState | null>(null);
+
+
+export type InventoryState = {
+  ownedPlants: OwnedPlant[];
+  greenhousePlants: GreenhousePlant[];
+  gardenPlants: GardenPlant[];
+}
+
+export const inventoryState = writable<InventoryState | null>(null);
+

@@ -101,9 +101,7 @@
 
   :global(body) {
     margin: 0; padding: 0;
-  }
-
-  
+  }  
 
   @mixin pixel-font() {
     text-rendering: optimizeLegibility;

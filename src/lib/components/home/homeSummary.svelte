@@ -31,7 +31,7 @@
           <tr>
             <td>Hours:</td>
             
-            <td>{"\"" + (($userData.projects.find(p => p.name === $userData.latest_heartbeat?.project)?.total_seconds || 0) / 3600).toFixed(2) + "\""}</td>
+            <td id="hours">{(($userData.projects.find(p => p.name === $userData.latest_heartbeat?.project)?.total_seconds || 0) / 3600).toFixed(2)}</td>
           </tr>
         </tbody>
       </table>
@@ -133,6 +133,11 @@
         color: var(--code-string);
       }
     }
+  }
+
+  #hours:hover {
+    background-color: #1e1e1e;
+    color: var(--code-flow) !important;
   }
 
   td {
